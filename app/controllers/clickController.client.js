@@ -1,33 +1,63 @@
 'use strict';
 
-(function () {
+(function() {
 
-   var addButton = document.querySelector('.btn-add');
-   var deleteButton = document.querySelector('.btn-delete');
-   var clickNbr = document.querySelector('#click-nbr');
-   var apiUrl = appUrl + '/api/:id/clicks';
+    angular.module('clementineApp', ['clementineTodoApp'])
 
-   function updateClickCount (data) {
-      var clicksObject = JSON.parse(data);
-      clickNbr.innerHTML = clicksObject.clicks;
-   }
+    .service('UserService', ['$http', '$window', '$q', function($http, $window, $q) {
 
-   ajaxFunctions.ready(ajaxFunctions.ajaxRequest('GET', apiUrl, updateClickCount));
+        var appUrl = $window.location.origin;
+        var apiUrl = appUrl + '/api/:id';
 
-   addButton.addEventListener('click', function () {
+        var deferred = $q.defer();
 
-      ajaxFunctions.ajaxRequest('POST', apiUrl, function () {
-         ajaxFunctions.ajaxRequest('GET', apiUrl, updateClickCount);
-      });
+        this.getUser = function() {
+            $http.get(apiUrl).then(function(result) {
+                deferred.resolve(result);
+            });
 
-   }, false);
+            return deferred.promise;
+        };
 
-   deleteButton.addEventListener('click', function () {
 
-      ajaxFunctions.ajaxRequest('DELETE', apiUrl, function () {
-         ajaxFunctions.ajaxRequest('GET', apiUrl, updateClickCount);
-      });
+    }])
 
-   }, false);
+    .controller('ClementineAppCtrl', ['$scope', '$http', '$window', 'UserService', 
+        function($scope, $http, $window, UserService) {
+
+        var appUrl = $window.location.origin;
+        var apiUrl = appUrl + '/api/:id/clicks';
+        
+        $scope.getClicks = function() {
+            $http.get(apiUrl).then(function(result) {
+                $scope.clicks = result.data.clicks;
+            });
+        };
+
+        $scope.addClick = function() {
+            $http.put(apiUrl).then(function(result) {
+                $scope.getClicks();
+            });
+        };
+
+        $scope.resetClicks = function() {
+            $http.delete(apiUrl).then(function(result) {
+                $scope.getClicks();
+            });
+        };
+
+        
+        $scope.getUser = function() {
+            UserService.getUser().then(function(result) {
+                $scope.user = result.data;
+            });
+        };
+        
+        
+        $scope.getClicks();
+        $scope.getUser();
+
+    }]);
+
 
 })();

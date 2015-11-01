@@ -3,6 +3,8 @@
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 
+var TodoHandler = require(path + '/app/controllers/todoHandler.server.js');
+
 module.exports = function (app, passport) {
 
 	function isLoggedIn (req, res, next) {
@@ -14,6 +16,8 @@ module.exports = function (app, passport) {
 	}
 
 	var clickHandler = new ClickHandler();
+
+	var todoHandler = new TodoHandler();
 
 	app.route('/')
 		.get(isLoggedIn, function (req, res) {
@@ -52,6 +56,16 @@ module.exports = function (app, passport) {
 
 	app.route('/api/:id/clicks')
 		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
+		.put(isLoggedIn, clickHandler.addClick)
 		.delete(isLoggedIn, clickHandler.resetClicks);
+		
+	app.route('/api/:id/todo')
+		.get(todoHandler.getTodosArray)
+		.post(todoHandler.addTodoNew)
+		.put(todoHandler.editTodo);
+
+	app.route('/api/:id/todo/:id')
+		.delete(todoHandler.removeTodo);
+		
+		
 };
