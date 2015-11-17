@@ -12,80 +12,49 @@
 
 <body ng-controller="ClementineAppCtrl">
 
-	<header>
-		<p>Welcome, <span id="display-name" ng-bind="user.displayName"></span>!</p>
-		<a class="menu" href="/profile">Profile</a>
-		<p>|</p>
-		<a class="menu" href="/logout">Logout</a>
-	</header>
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Diggin' in the Crates</h1>
+    <p class="lead">the online swap meet for vinyl</p>
+
+    <img ng-src="assets/images/diggin.png" width="150px">
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+    
+    </div>
+  </div>
+</div>
 
 
-	<div class="container">
-		<img src="/public/img/clementine_150.png" />
-		<br />
-		<p class="clementine-text">Clementine.js</p>
-	</div>
-
-	<div class="container">
-		<p>You have clicked the button <span id="click-nbr" ng-bind="clicks"></span> times.</p>
-		<br />
-		<div class="btn-container">
-			<button type="submit" class="btn btn-add" ng-click="addClick()">CLICK ME!</button>
-			<button class="btn btn-delete" ng-click="resetClicks()">RESET</button>
-		</div>
-	</div>
-	<hr>
-	<div class="container" ng-controller="TodoCtrl">
-
-		<div class="row">
-			<h1 class="text-center todo-title">Todos</h1>
-
-			<div class="col-sm-6">
-				<form>
-					
-					<div class="form-group">
-						<label for="title">Title</label>
-						<input type="text" name="title" ng-model="title" class="form-control" required />
-					</div>
+<div class="container" ng-controller="RecordCtrl">
 
 
-					<div class="form-group">
-						<label for="message">Message</label>
-						<input type="text" name="message" ng-model="message" class="form-control" required />
-					</div>
 
-				</form>
-				
-				<div class="form-buttons-container">
-					<div ng-show="hideEditedTodo === ''">
-						<button class="btn btn-primary" id="submit" ng-click="addTodo()">Add Todo</button>
-					</div>
-					<div ng-show="hideEditedTodo != ''">
-						<button class="btn btn-primary" id="cancel" ng-click="cancelEdit()">Cancel Editing</button>
-						<button class="btn btn-primary" id="edit" ng-click="putTodo()">Submit Edit</button>
-					</div>
-				</div>
-			</div>
+	<form>
+    <p class="input-group">
+      <input type="text" class="form-control" placeholder="Album" ng-model="newRecord.album">
+      <input type="text" class="form-control" placeholder="Artist" ng-model="newRecord.artist">
+      <input type="text" class="form-control" placeholder="Condition" ng-model="newRecord.condition">
+      <input type="text" class="form-control" placeholder="Description" ng-model="newRecord.description">
+    </p>
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary" ng-click="addRecord()">Add New</button>
+      </span>
+  </form>
+</div>
 
-			<div class="col-sm-6">
-
-				<div ng-repeat="todo in todoList">
-					<dl ng-hide="hideEditedTodo === todo._id">
-						<dt ng-bind="todo.todo.title"></dt>
-						<dd ng-bind="todo.todo.message"></dd>
-						<button class="btn btn-primary" ng-click="editTodo(todo._id, todo.todo.title, todo.todo.message)">Edit</button>
-						<button class="btn btn-danger" ng-click="deleteTodo(todo._id )">Delete</button>
-					</dl>
-				</div>
-			</div>
-
-		</div>
-
-	</div>
 
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
 	<script type="text/javascript" src="controllers/clickController.client.js"></script>
 	<script type="text/javascript" src="controllers/todoController.client.js"></script>
+	<script type="text/javascript" src="controllers/recordController.client.js"></script>
+
 
 
 </body>

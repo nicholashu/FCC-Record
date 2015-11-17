@@ -5,6 +5,9 @@ var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 
 var TodoHandler = require(path + '/app/controllers/todoHandler.server.js');
 
+var RecordHandler = require(path + '/app/controllers/recordHandler.server.js');
+
+
 module.exports = function (app, passport) {
 
 	function isLoggedIn (req, res, next) {
@@ -19,9 +22,16 @@ module.exports = function (app, passport) {
 
 	var todoHandler = new TodoHandler();
 
+	var recordHandler = new RecordHandler();
+
 	app.route('/')
 		.get(isLoggedIn, function (req, res) {
 			res.sendFile(path + '/public/index.html');
+		});
+
+		app.route('/record')
+		.get(isLoggedIn, function (req, res) {
+			res.sendFile(path + '/public/record.html');
 		});
 
 	app.route('/login')
@@ -64,8 +74,18 @@ module.exports = function (app, passport) {
 		.post(todoHandler.addTodoNew)
 		.put(todoHandler.editTodo);
 
-	app.route('/api/:id/todo/:id')
+
+ app.route('/api/:id/todo/:id')
 		.delete(todoHandler.removeTodo);
+
+ app.route('/api/:id/record')
+		.get(recordHandler.getRecordArray)
+		.post(recordHandler.addRecordNew)
+		.put(recordHandler.editRecord);
+
+
+	app.route('/api/:id/record/:id')
+		.delete(recordHandler.removeRecord);
 		
 		
 };

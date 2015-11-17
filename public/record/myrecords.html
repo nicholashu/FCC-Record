@@ -1,0 +1,66 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+  <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+<header class="hero-unit" id="banner2">
+  <div class="container">
+   <button class="btn btn-primary btn-lg" ng-click="setTab(0)">My Records</button>
+   <button class="btn btn-warning btn-lg" ng-click="setTab(1)">{{awaitingApproval.length}} Awaiting Approval</button>
+   <button class="btn btn-success btn-lg" ng-click="setTab(2)">{{onLoan.length}} On Loan</button>
+  </div>
+</header>
+<!--DEFAULT LIST -->
+<div class="container recordlist" ng-show="isTab(0)">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">My Records:</h1>
+      <div class="row well" ng-repeat="record in myRecords">
+      <button type="button" class="close" ng-click="deleteThing(record)">&times;</button>
+        <a href="/r/{{record._id}}">{{record.album}}-{{record.artist}}</a>
+        <p>condition:{{record.condition}}<br>description:{{record.description}}</p>
+        <div class="rev-image">
+          <img class="img" src="{{bar.image_url}}">
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+<!--AWAITING LIST -->
+  <div class="container recordlist" ng-show="isTab(1)">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Awaiting Approval:</h1>
+      <div class="row well" ng-repeat="record in awaitingApproval">
+      <button type="button" class="close" ng-click="deleteThing(record)">&times;</button>
+        <a href="/r/{{record._id}}">{{record.album}}-{{record.artist}}</a>
+        <p>condition:{{record.condition}}<br>description:{{record.description}}</p>
+        <p>Requested by: {{record.loaner}}</p>
+        <div class="going-button">
+              <button class="btn btn-success" ng-click="approveRecord(record._id)">Approve</button>
+              <button class="btn btn-danger" ng-click="cancelBorrow(record._id)">Cancel</button>
+        </div>
+        <div class="rev-image">
+          <img class="img" src="{{bar.image_url}}">
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+<!--APPROVED LIST -->
+ <div class="container recordlist" ng-show="isTab(2)">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">On Loan:</h1>
+      <div class="row well" ng-repeat="record in onLoan">
+      <button type="button" class="close" ng-click="deleteThing(record)">&times;</button>
+        <a href="/r/{{record._id}}">{{record.album}}-{{record.artist}}</a>
+        <p>condition:{{record.condition}}<br>description:{{record.description}}</p>
+        <p>On Loan to: {{record.loaner}}</p>
+        <div class="going-button">
+              <button class="btn btn-success" ng-click="cancelBorrow(record._id)">Returned?</button>
+        </div>
+        <div class="rev-image">
+          <img class="img" src="{{bar.image_url}}">
+        </div>
+      </div>
+    </div>
+ </div>
+ </div>

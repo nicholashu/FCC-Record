@@ -1,0 +1,38 @@
+<html ng-app="clementineApp">
+  <link href="/public/css/main.css" rel="stylesheet" type="text/css">
+<header class="hero-unit" id="banner2">
+  <div class="container"> 
+
+   <a href="/myrecords"><button class="btn btn-primary btn-lg">My Records</button></a> <a href="/newrecord"><button class="btn btn-success btn-lg">Add Record</button></a>
+  </div>
+</header>
+<div class="container recordlist" ng-controller="RecordCtrl">
+
+
+{{hi}}
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Records:</h1>
+      <div class="row well" >
+        <a href="/r/{{record._id}}">{{record.album}}-{{record.artist}}</a>
+        <p>condition:{{record.condition}}<br>description:{{record.description}}</p>
+       
+        <div class="going-button">
+          <button class="btn btn-warning" ng-show="isOwner(record)">Owner</button>
+              <button class="btn btn-primary" ng-click="borrowRecord(record._id)"  ng-show="isAvailable(record)">Request</button>
+              <button class="btn btn-success" ng-show="cantBorrow(record)">Requested</button>
+              <button class="btn btn-danger" ng-show="cantBorrow(record)" ng-click="cancelBorrow(record._id)">Cancel</button>
+        </div>
+        <div class="rev-image">
+          <img class="img" src="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+	<script type="text/javascript" src="controllers/clickController.client.js"></script>
+	<script type="text/javascript" src="controllers/todoController.client.js"></script>
+	<script type="text/javascript" src="controllers/recordController.client.js"></script>
+</html>

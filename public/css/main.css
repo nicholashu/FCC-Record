@@ -205,10 +205,55 @@ span {
 
 
 
-/*********Todo Styles**********/
+/*********Record Styles**********/
+.thing-form {
+    margin: 20px 0;
+}
 
-.todo-title {
-	font-weight: 500;
-	font-size: 60px;
-	color: #FFA000;
+body{
+    background-color: #ECECEC;
+}
+#banner {
+    border-bottom: none;
+    margin-top: -20px;
+    height: 50vh;
+    padding-top: 8%;
+}
+#banner2 {
+    border-bottom: none;
+    margin-top: -20px;
+    padding-top: 8%;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.hero-unit {
+    position: relative;
+    padding: 30px 15px;
+    color: #F5F5F5;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background: #22313F;
+}
+
+.recordlist {
+    background-color: white;
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.navbar-text {
+    margin-left: 15px;
 }

@@ -2,7 +2,7 @@
 
 (function() {
 
-    angular.module('clementineApp', ['clementineTodoApp'])
+    angular.module('clementineApp', ['clementineTodoApp', 'clementineRecordApp'])
 
     .service('UserService', ['$http', '$window', '$q', function($http, $window, $q) {
 
