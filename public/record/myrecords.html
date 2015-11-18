@@ -7,11 +7,13 @@
 <body ng-controller="RecordCtrl">
 
 <header class="hero-unit" id="banner2" >
+
   <div class="container">
    <button class="btn btn-primary btn-lg" ng-click="setTab(0)">My Records</button>
    <button class="btn btn-warning btn-lg" ng-click="setTab(1)">{{awaitingApproval.length}} Awaiting Approval</button>
    <button class="btn btn-success btn-lg" ng-click="setTab(2)">{{onLoan.length}} On Loan</button>
   </div>
+
 </header>
 <!--DEFAULT LIST -->
   <div class="container recordlist" ng-show="isTab(0)">

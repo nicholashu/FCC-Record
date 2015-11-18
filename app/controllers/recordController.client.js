@@ -17,42 +17,31 @@
 
                 $http.get("/api/getCurrentUser").then(function(result){
                  $scope.currentUser = result.data;
-                 console.log($scope.currentUser)
                 });
 
                 $scope.loadRecords = function() {
                     $http.get(recordUrl).then(function(response) {
-                        getRecords(response.data);
-                        $scope.records = response.data;
+                        var records = response.data;
+                        getRecords(records);
+                        checkRequests();
                     });
-                    console.log($scope.records);
-                    checkRequests();
                 };
-
 
                 function getRecords(records){
                   var user = $scope.currentUser;
-                  console.log(records)
                   records.forEach(function(record){
-                    if (record.owner === user.id){
-                      $scope.myRecords.push(record);
+                    if (record.record.owner === user.id){
+                      $scope.myRecords.push(record.record);
                     }
                       $scope.records.push(record);
                   });
                  }
 
                   function checkRequests(){
-                  $scope.myRecords.forEach(function(record){
-                    if(record.loaner !== ''){
-                      if(record.approved !== true){
-                        $scope.awaitingArray.push(record);
-                      }
-                      else if(record.approved === true){
-                        $scope.onLoan.push(record);
-                      }
-                    }
-                  });
+                    console.log($scope.myRecords);
+                  
                 }
+
 
                 $scope.loadRecords();
 
