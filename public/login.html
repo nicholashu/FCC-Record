@@ -9,11 +9,16 @@
 	</head>
 
 	<body>
-		<div class="container">	
-			<div class="login">
-				<img src="/public/img/clementine_150.png" />
+<div ng-include="'public/partials/navbar.html'"></div>
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>Diggin' in the Crates</h1>
+    <p class="lead">the online swap meet for vinyl</p>
+
+    <img ng-src="assets/images/diggin.png" width="150px">
+  </div>
+  <div class="login">
 				<br />
-				<p class="clementine-text">Clementine.js</p>
 				<a href="/auth/github">
 					<div class="btn" id="login-btn">
 						<img src="/public/img/github_32px.png" alt="github logo" />
@@ -21,7 +26,11 @@
 					</div>
 				</a>
 			</div>
+</header>
+		<div class="container">	
+			
 		</div>
 	</body>
 
 </html>
+

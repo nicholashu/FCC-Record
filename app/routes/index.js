@@ -26,13 +26,24 @@ module.exports = function (app, passport) {
 
 	app.route('/')
 		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/index.html');
+			res.sendFile(path + '/public/record/record.html');
 		});
 
-		app.route('/record')
+		app.route('/newrecord')
 		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/record.html');
+			res.sendFile(path + '/public/record/newrecord.html');
 		});
+
+		app.route('/r/:id')
+		.get(isLoggedIn, function (req, res) {
+			res.sendFile(path + '/public/record/recordpage.html');
+		});
+
+		app.route('/:userId/records')
+		.get(isLoggedIn, function (req, res) {
+			res.sendFile(path + '/public/record/myrecords.html');
+		});
+
 
 	app.route('/login')
 		.get(function (req, res) {

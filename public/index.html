@@ -12,28 +12,37 @@
 
 <body ng-controller="ClementineAppCtrl">
 
-<div ng-include="'components/navbar/navbar.html'"></div>
+	<header>
+		<p>Welcome, <span id="display-name" ng-bind="user.displayName"></span>!</p>
+		<a class="menu" href="/profile">Profile</a>
+		<p>|</p>
+		<a class="menu" href="/logout">Logout</a>
+	</header>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>Diggin' in the Crates</h1>
-    <p class="lead">the online swap meet for vinyl</p>
 
-    <img ng-src="assets/images/diggin.png" width="150px">
-  </div>
-</header>
+	<div class="container">
+		<img src="/public/img/clementine_150.png" />
+		<br />
+		<p class="clementine-text">Clementine.js</p>
+		<div ng-controller="RecordCtrl">
+		{{hi}}
+		</div>
+	</div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-    
-    </div>
-  </div>
-</div>
-
+	<div class="container">
+		<p>You have clicked the button <span id="click-nbr" ng-bind="clicks"></span> times.</p>
+		<br />
+		<div class="btn-container">
+			<button type="submit" class="btn btn-add" ng-click="addClick()">CLICK ME!</button>
+			<button class="btn btn-delete" ng-click="resetClicks()">RESET</button>
+		</div>
+	</div>
+	<hr>
 
 <div class="container" ng-controller="RecordCtrl">
-
+		{{records}}
+		{{newRecord}}
+		{{newRecord.album}}
 
 
 	<form>

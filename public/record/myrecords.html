@@ -1,6 +1,12 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
+<html ng-app="clementineRecordApp">
+<head>
   <link href="/public/css/main.css" rel="stylesheet" type="text/css">
-<header class="hero-unit" id="banner2">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+
+<body ng-controller="RecordCtrl">
+
+<header class="hero-unit" id="banner2" >
   <div class="container">
    <button class="btn btn-primary btn-lg" ng-click="setTab(0)">My Records</button>
    <button class="btn btn-warning btn-lg" ng-click="setTab(1)">{{awaitingApproval.length}} Awaiting Approval</button>
@@ -8,21 +14,21 @@
   </div>
 </header>
 <!--DEFAULT LIST -->
-<div class="container recordlist" ng-show="isTab(0)">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">My Records:</h1>
-      <div class="row well" ng-repeat="record in myRecords">
-      <button type="button" class="close" ng-click="deleteThing(record)">&times;</button>
-        <a href="/r/{{record._id}}">{{record.album}}-{{record.artist}}</a>
-        <p>condition:{{record.condition}}<br>description:{{record.description}}</p>
-        <div class="rev-image">
-          <img class="img" src="{{bar.image_url}}">
+  <div class="container recordlist" ng-show="isTab(0)">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">My Records:</h1>
+        <div class="row well" ng-repeat="record in myRecords">
+        <button type="button" class="close" ng-click="deleteThing(record)">&times;</button>
+          <a href="/r/{{record._id}}">{{record.album}}-{{record.artist}}</a>
+          <p>condition:{{record.condition}}<br>description:{{record.description}}</p>
+          <div class="rev-image">
+            <img class="img" src="{{bar.image_url}}">
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  </div>
+    </div>
 <!--AWAITING LIST -->
   <div class="container recordlist" ng-show="isTab(1)">
   <div class="row">
@@ -63,4 +69,10 @@
       </div>
     </div>
  </div>
+ 
  </div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+<script type="text/javascript" src="controllers/recordController.client.js"></script>
+</body>
+</html>

@@ -3,26 +3,38 @@
 (function() {
     angular
         .module('clementineRecordApp', [])
-        .controller('RecordCtrl', ['$scope', '$http', '$window',
+
+        .controller('RecordCtrl', ['$scope', '$http', '$window', 
 
             function($scope, $http, $window) {
                 
                 var appUrl = $window.location.origin;
                 var recordUrl = appUrl + '/api/:id/record';
-
-                $scope.newRecord = {};
-                $scope.hi = "hi from the record controller!";
-
-
+                $scope.records = [];
+                $scope.newRecord = {}; 
+                $scope.myRecords = [];
+                $scope.tab = 0;
 
                 $scope.getRecords = function() {
+                    var user = $scope.currentUser;
                     $http.get(recordUrl).then(function(response) {
-                        $scope.recordList = response.data;
+                        response.forEach(function(data){
+                            if (data.record.owner === user.id){
+                              $scope.myRecords.push(data);
+                            }
+                        $scope.records = response.data;
+                        });
                     });
+                    console.log($scope.records);
                 };
 
+                $http.get("/api/getCurrentUser").then(function(result){
+                 $scope.currentUser = result.data;
+                 console.log($scope.currentUser)
+                });
 
                 $scope.getRecords();
+
 
                 $scope.addRecord = function() {
                     if ($scope.newRecord != {}) {
@@ -80,6 +92,76 @@
                         $scope.getRecords();
                     });
                 };
+
+                function checkRequests(){
+                  $scope.myRecords.forEach(function(record){
+                    if(record.loaner !== ''){
+                      if(record.approved !== true){
+                        $scope.awaitingArray.push(record);
+                      }
+                      else if(record.approved === true){
+                        $scope.onLoan.push(record);
+                      }
+                    }
+                  });
+                }
+
+                $scope.setTab = function(tab) {
+                  $scope.tab = tab;
+                };
+
+                $scope.isTab = function(tab) {
+                  return tab === $scope.tab;
+                };
+
+                $scope.isOwner = function(record) {
+                  var user = $scope.currentUser
+                  if(record.owner === user.id){
+                    return true;
+                  }else{
+                    return false;
+                  }
+                };
+
+                $scope.cantBorrow = function(record) {
+                  var user = $scope.currentUser;
+                  if(record.loaner !== ''){
+                    if (record.owner === user.id){
+                      return false;
+                    }else{
+                      return true;
+                    }
+                  }
+                  else{
+                    return false;
+                  }
+                };
+
+                //show if not owner, has "" or undefined, 
+                $scope.isAvailable = function(record) {
+                  var user = $scope.currentUser;
+                  if (record.owner === user.id){
+                    return false;
+                  }
+                  if(record.owner !== user.id){
+                    if (record.loaner !== ''){
+                      return false;
+                    }else{
+                      return true;
+                    }
+                  }else if(record.loaner !== ''){
+                    return true;
+                  }
+                  else{
+                    return false;
+                  }
+                };
+
+
+
+
+
+
 
             }
         ]);
