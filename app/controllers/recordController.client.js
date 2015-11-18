@@ -15,26 +15,46 @@
                 $scope.myRecords = [];
                 $scope.tab = 0;
 
-                $scope.getRecords = function() {
-                    var user = $scope.currentUser;
-                    $http.get(recordUrl).then(function(response) {
-                        response.forEach(function(data){
-                            if (data.record.owner === user.id){
-                              $scope.myRecords.push(data);
-                            }
-                        $scope.records = response.data;
-                        });
-                    });
-                    console.log($scope.records);
-                };
-
                 $http.get("/api/getCurrentUser").then(function(result){
                  $scope.currentUser = result.data;
                  console.log($scope.currentUser)
                 });
 
-                $scope.getRecords();
+                $scope.loadRecords = function() {
+                    $http.get(recordUrl).then(function(response) {
+                        getRecords(response.data);
+                        $scope.records = response.data;
+                    });
+                    console.log($scope.records);
+                    checkRequests();
+                };
 
+
+                function getRecords(records){
+                  var user = $scope.currentUser;
+                  console.log(records)
+                  records.forEach(function(record){
+                    if (record.owner === user.id){
+                      $scope.myRecords.push(record);
+                    }
+                      $scope.records.push(record);
+                  });
+                 }
+
+                  function checkRequests(){
+                  $scope.myRecords.forEach(function(record){
+                    if(record.loaner !== ''){
+                      if(record.approved !== true){
+                        $scope.awaitingArray.push(record);
+                      }
+                      else if(record.approved === true){
+                        $scope.onLoan.push(record);
+                      }
+                    }
+                  });
+                }
+
+                $scope.loadRecords();
 
                 $scope.addRecord = function() {
                     if ($scope.newRecord != {}) {
