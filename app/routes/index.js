@@ -1,9 +1,6 @@
 'use strict';
 
 var path = process.cwd();
-var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
-
-var TodoHandler = require(path + '/app/controllers/todoHandler.server.js');
 
 var RecordHandler = require(path + '/app/controllers/recordHandler.server.js');
 
@@ -18,9 +15,7 @@ module.exports = function (app, passport) {
 		}
 	}
 
-	var clickHandler = new ClickHandler();
 
-	var todoHandler = new TodoHandler();
 
 	var recordHandler = new RecordHandler();
 
@@ -75,19 +70,6 @@ module.exports = function (app, passport) {
 			failureRedirect: '/login'
 		}));
 
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.put(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
-		
-	app.route('/api/:id/todo')
-		.get(todoHandler.getTodosArray)
-		.post(todoHandler.addTodoNew)
-		.put(todoHandler.editTodo);
-
-
- app.route('/api/:id/todo/:id')
-		.delete(todoHandler.removeTodo);
 
  app.route('/api/:id/record')
 		.get(recordHandler.getRecordArray)
