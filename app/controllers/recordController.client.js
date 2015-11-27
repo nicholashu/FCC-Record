@@ -3,10 +3,27 @@
 (function() {
     angular
         .module('clementineRecordApp', [])
+        .service('UserService', ['$http', '$window', '$q', function($http, $window, $q) {
 
-        .controller('RecordCtrl', ['$scope', '$http', '$window', 
+        var appUrl = $window.location.origin;
+        var apiUrl = appUrl + '/api/:id';
 
-            function($scope, $http, $window) {
+        var deferred = $q.defer();
+
+        this.getUser = function() {
+            $http.get(apiUrl).then(function(result) {
+                deferred.resolve(result);
+            });
+
+            return deferred.promise;
+        };
+
+
+    }])
+
+        .controller('RecordCtrl', ['$scope', '$http', '$window','UserService',
+
+            function($scope, $http, $window, UserService) {
                 
                 var appUrl = $window.location.origin;
                 var recordUrl = appUrl + '/api/:id/record';
@@ -14,10 +31,15 @@
                 $scope.newRecord = {}; 
                 $scope.myRecords = [];
                 $scope.tab = 0;
+  
 
-                $http.get("/api/getCurrentUser").then(function(result){
-                 $scope.currentUser = result.data;
-                });
+                $scope.getUser = function() {
+                UserService.getUser().then(function(result) {
+                        $scope.user = result.data;
+                    });
+                };
+
+                $scope.getUser();
 
                 $scope.loadRecords = function() {
                     $http.get(recordUrl).then(function(response) {
@@ -30,20 +52,20 @@
                 function getRecords(records){
                   var user = $scope.currentUser;
                   records.forEach(function(record){
-                    if (record.record.owner === user.id){
-                      $scope.myRecords.push(record.record);
+                    if (record.owner === user.id){
+                      $scope.myRecords.push(record);
                     }
                       $scope.records.push(record);
                   });
                  }
 
-                  function checkRequests(){
-                    console.log($scope.myRecords);
-                  
+                function checkRequests(){
                 }
 
 
                 $scope.loadRecords();
+                console.log($scope.user)
+
 
                 $scope.addRecord = function() {
                     if ($scope.newRecord != {}) {
@@ -53,6 +75,7 @@
                             'artist': $scope.newRecord.artist,
                             'condition': $scope.newRecord.condition,
                             'description': $scope.newRecord.description
+                           // 'owner': 
                         }).then(function(response) {
                             $scope.getRecords();
                             $scope.newRecord = {};
@@ -124,7 +147,9 @@
                 };
 
                 $scope.isOwner = function(record) {
-                  var user = $scope.currentUser
+                  var user = $scope.currentUser;
+                 // console.log(user)
+                //  console.log(record)
                   if(record.owner === user.id){
                     return true;
                   }else{

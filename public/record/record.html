@@ -19,13 +19,13 @@
     <div class="col-lg-12">
     
       <div class="row well" ng-repeat="data in records">
-        <a href="/r/{{data._id}}">{{data.record.album}}-{{data.record.artist}}</a>
-        <p>condition:{{data.record.condition}}<br>description:{{data.record.description}}</p>
+        <a href="/r/{{data._id}}">{{data.album}}-{{data.artist}}</a>
+        <p>condition:{{data.condition}}<br>description:{{data.description}}</p>
         <div>
-          <button class="btn btn-warning" ng-show="isOwner(data.record)">Owner</button>
-              <button class="btn btn-primary" ng-click="borrowRecord(data._id)"  ng-show="isAvailable(data.record)">Request</button>
-              <button class="btn btn-success" ng-show="cantBorrow(data.record)">Requested</button>
-              <button class="btn btn-danger" ng-show="cantBorrow(data.record)" ng-click="cancelBorrow(record._id)">Cancel</button>
+          <button class="btn btn-warning" ng-show="isOwner(data)">Owner</button>
+              <button class="btn btn-primary" ng-click="borrowRecord(data._id)"  ng-show="isAvailable(data)">Request</button>
+              <button class="btn btn-success" ng-show="cantBorrow(data)">Requested</button>
+              <button class="btn btn-danger" ng-show="cantBorrow(data)" ng-click="cancelBorrow(record._id)">Cancel</button>
               <button class="btn btn-danger" ng-click="deleteRecord(data._id)">delete</button>
         </div>
       </div>
