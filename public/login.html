@@ -12,20 +12,39 @@
 <div ng-include="'public/partials/navbar.html'"></div>
 <header class="hero-unit" id="banner">
   <div class="container">
+
     <h1>Diggin' in the Crates</h1>
     <p class="lead">the online swap meet for vinyl</p>
 
     <img ng-src="assets/images/diggin.png" width="150px">
   </div>
+  <!-- LOGIN FORM -->
+  Login:
+   <!-- LOGIN FORM -->
+    <form action="/login" method="post">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" name="email">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" name="password">
+        </div>
+
+        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+    </form>
+
+    <br>
   <div class="login">
-				<br />
+
+
 				<a href="/auth/github">
 					<div class="btn" id="login-btn">
 						<img src="/public/img/github_32px.png" alt="github logo" />
 						<p>LOGIN WITH GITHUB</p>
 					</div>
 				</a>
-			</div>
+	</div>
 </header>
 		<div class="container">	
 			

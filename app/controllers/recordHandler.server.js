@@ -7,7 +7,7 @@ function RecordHandler() {
 
     this.getRecordArray = function(req, res) {
 
-        Records.find({github: {id: req.user.github.id}}).sort({
+        Records.find().sort({
                 _id: -1
             })
             .exec(function(err, result) {
@@ -20,16 +20,11 @@ function RecordHandler() {
 
     this.addRecordNew = function(req, res) {
         var newDoc = new Records({
-            github: {
-                id: req.user.github.id,
-            },
-            record: {
               album: req.body.album,
               artist: req.body.artist,
               condition: req.body.condition,
               description: req.body.description,
-              owner: req.user.github.id
-            }
+              owner: req.user._id
         });
 
 
@@ -66,7 +61,7 @@ function RecordHandler() {
               artist: req.body.artist,
               condition: req.body.condition,
               description: req.body.description,
-              owner: req.user.github.id
+              owner: req.user._id
             }}, function(err) {
             if (err) {
                 throw err;

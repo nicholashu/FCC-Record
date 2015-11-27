@@ -4,10 +4,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Record = new Schema({
-	github: {
-    id: String,
-   },
-  record:{
 		album: String,
 	  artist: String,
 	  condition: Number,
@@ -20,6 +16,6 @@ var Record = new Schema({
 	    default: false
 	  }
   }
-});
+);
 
 module.exports = mongoose.model('Record', Record);

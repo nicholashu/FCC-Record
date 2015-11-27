@@ -15,13 +15,11 @@ module.exports = function (app, passport) {
 		}
 	}
 
-
-
 	var recordHandler = new RecordHandler();
 
 	app.route('/')
 		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/record/record.html');
+			res.sendFile(path + '/public/record/record.html', { message: req.flash('loginMessage') });
 		});
 
 		app.route('/newrecord')
@@ -43,6 +41,11 @@ module.exports = function (app, passport) {
 	app.route('/login')
 		.get(function (req, res) {
 			res.sendFile(path + '/public/login.html');
+		});
+
+		app.route('/signup')
+		.get(function (req, res) {
+			res.sendFile(path + '/public/signup.html', { message: req.flash('signupMessage') });
 		});
 
 	app.route('/logout')
@@ -69,6 +72,12 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));
+
+		app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/', // redirect to the secure profile section
+        failureRedirect : '/notworking', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
 
 
  app.route('/api/:id/record')
