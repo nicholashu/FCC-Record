@@ -1,30 +1,43 @@
 <!DOCTYPE html>
 
-<html ng-app="clementineApp">
-
+<html ng-app="clementineRecordApp">
 <head>
-	<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
+	<title>Profile</title>
 
 	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
 </head>
-
+{{user}}
 <body>
-	<div class="container" ng-controller="ClementineAppCtrl">
-		<div class="github-profile">
-			<img src="/public/img/gh-mark-32px.png" alt="github logo" />
-			<p><span>ID: </span><span id="profile-id" class="profile-value" ng-bind="user.id"></span></p>
-			<p><span>Username: </span><span id="profile-username" class="profile-value" ng-bind="user.username"></span></p>
-			<p><span>Display Name: </span><span id="display-name" class="profile-value" ng-bind="user.displayName"></span></p>
-			<p><span>Repositories: </span><span id="profile-repos" class="profile-value" ng-bind="user.publicRepos"></span></p>
+	<div class="container" ng-controller="UserCtrl">
+	<button ng-click="stupidButton()">Hi</button>
+		<div ng-show="isTab(0)">
+			<p><span>ID: </span><span id="profile-id" class="profile-value" ng-bind="user._id"></span></p>
+			<p><span>Email: </span><span id="profile-username" class="profile-value" ng-bind="user.local.email"></span></p>
+			<p><span>Display Name: </span><span id="display-name" class="profile-value" ng-bind="user.shared.name"></span></p>
 			<a class="menu" href="/">Home</a>
 			<p id="menu-divide">|</p>
 			<a class="menu" href="/logout">Logout</a>
 		</div>
+	<div ng-show="isTab(1)">
+		<form>
+    <p class="input-group">
+      <input type="text" class="form-control" placeholder="Name" ng-model="user.shared.name">
+      <input type="text" class="form-control" placeholder="Email" ng-model="user.local.email">
+      <input type="text" class="form-control" placeholder="Country" ng-model="user.shared.country">
+      <input type="text" class="form-control" placeholder="State" ng-model="user.shared.state">
+      <input type="text" class="form-control" placeholder="State" ng-model="user.shared.city">
+    </p>
+  </form>
+	</div>
+	<button class="btn btn-large" ng-click="setTab(1)" ng-show="isTab(0)">Edit</button>
+	<button class="btn btn-large" ng-show="isTab(1)" ng-click="editUser(user._id)" >Save</button>
+	<button class="btn btn-large" ng-show="isTab(1)" ng-click="setTab(0)" >Cancel</button>
+
 	</div>
 
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-	<script type="text/javascript" src="controllers/clickController.client.js"></script>
-	<script type="text/javascript" src="controllers/todoController.client.js"></script>
+<script type="text/javascript" src="controllers/userController.client.js"></script>
+
 
 
 </body>

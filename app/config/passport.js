@@ -3,7 +3,7 @@
 var GitHubStrategy = require('passport-github').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
 
-var User = require('../models/users');
+var User = require('../models/user');
 var configAuth = require('./auth');
 
 module.exports = function (passport) {
@@ -38,8 +38,6 @@ module.exports = function (passport) {
 					newUser.github.username = profile.username;
 					newUser.github.displayName = profile.displayName;
 					newUser.github.publicRepos = profile._json.public_repos;
-					newUser.nbrClicks.clicks = 0;
-
 					newUser.save(function (err) {
 						if (err) {
 							throw err;
@@ -127,5 +125,33 @@ module.exports = function (passport) {
         });
 
     }));
+
+passport.use('local-update', new LocalStrategy({
+    usernameField : 'username',
+    passReqToCallback : true
+},
+function(req, username, done) {
+
+    console.log(req)
+        Users.findOneAndUpdate({
+        "_id": req.body.id
+        }, {
+        local: {
+        email : req.body.email,
+            },
+             shared: {
+                name: req.body.name,
+                country: req.body.country,
+            state: req.body.state,
+            city: req.body.city
+             }},
+             function(err) {
+            if (err) {
+                throw err;
+            }
+            res.send(req.body);
+        });
+
+}));
 
 };

@@ -20,10 +20,9 @@
 
 
     }])
+        .controller('RecordCtrl', ['$scope', '$http', '$window','UserService','$location',
 
-        .controller('RecordCtrl', ['$scope', '$http', '$window','UserService',
-
-            function($scope, $http, $window, UserService) {
+            function($scope, $http, $window, UserService, $location) {
                 
                 var appUrl = $window.location.origin;
                 var recordUrl = appUrl + '/api/:id/record';
@@ -42,6 +41,7 @@
                 $scope.getUser();
 
                 $scope.loadRecords = function() {
+                    $scope.records = [];
                     $http.get(recordUrl).then(function(response) {
                         var records = response.data;
                         getRecords(records);
@@ -50,9 +50,8 @@
                 };
 
                 function getRecords(records){
-                  var user = $scope.currentUser;
                   records.forEach(function(record){
-                    if (record.owner === user.id){
+                    if (record.owner === $scope.user._id ){
                       $scope.myRecords.push(record);
                     }
                       $scope.records.push(record);
@@ -66,19 +65,18 @@
                 $scope.loadRecords();
                 console.log($scope.user)
 
-
                 $scope.addRecord = function() {
                     if ($scope.newRecord != {}) {
-
                         $http.post(recordUrl, {
                             'album': $scope.newRecord.album,
                             'artist': $scope.newRecord.artist,
                             'condition': $scope.newRecord.condition,
-                            'description': $scope.newRecord.description
-                           // 'owner': 
+                            'description': $scope.newRecord.description,
+                            'owner': $scope.user._id
                         }).then(function(response) {
-                            $scope.getRecords();
+                            $scope.loadRecords();
                             $scope.newRecord = {};
+                            $window.location.href = appUrl + "/" +  $scope.user._id + '/records';
                         });
                     }
                 };
@@ -89,7 +87,7 @@
                     $scope.message = message;
                     $scope.hideEditedTodo = id;
                 };
-                
+
                 
                 
                   //fix for record
@@ -121,7 +119,7 @@
                         method: "DELETE"
                     }).
                     then(function(data) {
-                        $scope.getRecords();
+                        $scope.loadRecords();
                     });
                 };
 
@@ -147,8 +145,8 @@
                 };
 
                 $scope.isOwner = function(record) {
-                  var user = $scope.currentUser;
-                 // console.log(user)
+                  var user = $scope.user;
+                // console.log(user)
                 //  console.log(record)
                   if(record.owner === user.id){
                     return true;
@@ -158,7 +156,7 @@
                 };
 
                 $scope.cantBorrow = function(record) {
-                  var user = $scope.currentUser;
+                  var user = $scope.user;
                   if(record.loaner !== ''){
                     if (record.owner === user.id){
                       return false;
@@ -173,7 +171,7 @@
 
                 //show if not owner, has "" or undefined, 
                 $scope.isAvailable = function(record) {
-                  var user = $scope.currentUser;
+                 var user = $scope.user;
                   if (record.owner === user.id){
                     return false;
                   }
@@ -190,13 +188,6 @@
                     return false;
                   }
                 };
-
-
-
-
-
-
-
             }
         ]);
 

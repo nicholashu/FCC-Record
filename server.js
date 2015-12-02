@@ -23,7 +23,8 @@ mongoose.connect(process.env.MONGO_URI);
 // set up our express application
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()); // get information from html forms
+app.use(bodyParser.json()); // get information from html forms
+	app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use(flash()); // use connect-flash for flash messages stored in session
