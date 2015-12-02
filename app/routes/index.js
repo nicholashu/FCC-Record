@@ -27,6 +27,7 @@
 		//ROUTE TO USER PROFILE
 		app.route('/api/profile')
 		.put(userHandler.editUser, function(req,res){
+			console.log(res)
 			res.sendFile(path + '/public/profile.html');
 		});
 

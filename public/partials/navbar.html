@@ -16,13 +16,12 @@
         <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}">
             <a ng-href="{{item.link}}">{{item.title}}</a>
         </li>
-        <li ng-show="isAdmin()" ng-class="{active: isActive('/admin')}"><a href="/admin">Admin</a></li>
-        <li ><a href="/record">Records</a></li>
+        <li ><a href="/">Records</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
         <li ><p class="navbar-text"><a href="/profile">Profile</a></p></li>
-        <li><a href="" ng-click="logout()">Logout</a></li>
+        <li><a href="/logout" ng-click="logout()">Logout</a></li>
       </ul>
     </div>
   </div>

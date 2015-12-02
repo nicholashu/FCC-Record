@@ -4,23 +4,21 @@
 
 	<head>
 		<title>Clementine.js - The elegant and lightweight full stack JavaScript boilerplate.</title>
-		
 		<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	</head>
+  <<style type="text/css" media="screen">
+    body {background-color: #22313F;}
+  </style>
 
 	<body>
-<div ng-include="'public/partials/navbar.html'"></div>
 <header class="hero-unit" id="banner">
   <div class="container">
-
+ 
     <h1>Diggin' in the Crates</h1>
     <p class="lead">the online swap meet for vinyl</p>
 
     <img ng-src="assets/images/diggin.png" width="150px">
-  </div>
-  <!-- LOGIN FORM -->
-  Login:
-   <!-- LOGIN FORM -->
     <form action="/login" method="post">
         <div class="form-group">
             <label>Email</label>
@@ -30,26 +28,19 @@
             <label>Password</label>
             <input type="password" class="form-control" name="password">
         </div>
-
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
+        <button type="submit" class="gitbtn btn btn-warning btn-lg">Login</button>
     </form>
-
     <br>
-  <div class="login">
-
-
+    <p>Don't have an account? Why not <a href="/signup">create</a> one now.</p>
+    <br>
 				<a href="/auth/github">
-					<div class="btn" id="login-btn">
+					<div class="gitbtn" id="login-btn">
 						<img src="/public/img/github_32px.png" alt="github logo" />
 						<p>LOGIN WITH GITHUB</p>
 					</div>
 				</a>
-	</div>
-</header>
-		<div class="container">	
-			
-		</div>
-	</body>
 
+</header>
+	</body>
 </html>
 

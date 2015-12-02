@@ -3,35 +3,40 @@
 <html ng-app="clementineRecordApp">
 <head>
 	<title>Profile</title>
-
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<link href="/public/css/main.css" rel="stylesheet" type="text/css">
+	
 </head>
-{{user}}
+
 <body>
-	<div class="container" ng-controller="UserCtrl">
-	<button ng-click="stupidButton()">Hi</button>
+<div ng-include="'public/partials/navbar.html'"></div>
+
+	<div class="container recordlist" ng-controller="UserCtrl">
 		<div ng-show="isTab(0)">
+		<br>
 			<p><span>ID: </span><span id="profile-id" class="profile-value" ng-bind="user._id"></span></p>
 			<p><span>Email: </span><span id="profile-username" class="profile-value" ng-bind="user.local.email"></span></p>
 			<p><span>Display Name: </span><span id="display-name" class="profile-value" ng-bind="user.shared.name"></span></p>
-			<a class="menu" href="/">Home</a>
-			<p id="menu-divide">|</p>
-			<a class="menu" href="/logout">Logout</a>
+			<p><span>Country:</span><span id="display-name" class="profile-value" ng-bind="user.shared.country"></span></p>
+			<p><span>State:</span><span id="display-name" class="profile-value" ng-bind="user.shared.state"></span></p>
+			<p><span>City:</span><span id="display-name" class="profile-value" ng-bind="user.shared.city"></span></p>
 		</div>
 	<div ng-show="isTab(1)">
 		<form>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Name" ng-model="user.shared.name">
-      <input type="text" class="form-control" placeholder="Email" ng-model="user.local.email">
-      <input type="text" class="form-control" placeholder="Country" ng-model="user.shared.country">
-      <input type="text" class="form-control" placeholder="State" ng-model="user.shared.state">
-      <input type="text" class="form-control" placeholder="State" ng-model="user.shared.city">
+    <p class="input-group" style="text-align:left">
+      <p>Display Name: <input type="text" class="form-control" placeholder="Name" ng-model="user.shared.name"></p>
+     <p>Email: <input type="text" class="form-control" placeholder="Email" ng-model="user.local.email"></p>
+      <p>Country:  <input type="text" class="form-control" placeholder="Country" ng-model="user.shared.country"></p>
+      <p>State: <input type="text" class="form-control" placeholder="State" ng-model="user.shared.state"></p>
+      <p>City: <input type="text" class="form-control" placeholder="City" ng-model="user.shared.city"></p>
     </p>
   </form>
 	</div>
-	<button class="btn btn-large" ng-click="setTab(1)" ng-show="isTab(0)">Edit</button>
-	<button class="btn btn-large" ng-show="isTab(1)" ng-click="editUser(user._id)" >Save</button>
-	<button class="btn btn-large" ng-show="isTab(1)" ng-click="setTab(0)" >Cancel</button>
+	<button class="gitbtn btn-large" style="float:right" ng-click="setTab(1)" ng-show="isTab(0)">Edit</button>
+	<br>
+	<button class="gitbtn btn-large" ng-show="isTab(1)"  ng-click="editUser(user._id)" >Save</button>
+	<button class="gitbtn btn-large" ng-show="isTab(1)"  ng-click="setTab(0)" >Cancel</button>
+	
 
 	</div>
 

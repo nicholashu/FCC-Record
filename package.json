@@ -37,6 +37,7 @@
     "passport-github": "^1.0.0",
     "passport-local": "^1.0.0",
     "connect-flash" : "~0.1.1",     
-    "bcrypt-nodejs" : "latest"
+    "bcrypt-nodejs" : "latest",
+    "flat" : "^1.6.0"
   }
 }
