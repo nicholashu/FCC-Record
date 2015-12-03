@@ -17,16 +17,14 @@
   <h1 class="page-header">Records:</h1>
   <div class="row">
     <div class="col-lg-12">
-    
       <div class="row well" ng-repeat="data in records">
         <a href="/r/{{data._id}}">{{data.album}}-{{data.artist}}</a>
         <p>condition:{{data.condition}}<br>description:{{data.description}}</p>
         <div>
-          <button class="btn btn-warning" ng-show="isOwner(data)">Owner</button>
+              <button class="btn btn-success" ng-show="isOwner(data)">Owner</button>
               <button class="btn btn-primary" ng-click="borrowRecord(data._id)"  ng-show="isAvailable(data)">Request</button>
-              <button class="btn btn-success" ng-show="cantBorrow(data)">Requested</button>
-              <button class="btn btn-danger" ng-show="cantBorrow(data)" ng-click="cancelBorrow(record._id)">Cancel</button>
-              <button class="btn btn-danger" ng-click="deleteRecord(data._id)">delete</button>
+              <button class="btn btn-warning" ng-show="requested(data)">Requested</button>
+             
         </div>
       </div>
     </div>

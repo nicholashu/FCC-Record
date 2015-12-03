@@ -26,6 +26,9 @@
                 
                 var appUrl = $window.location.origin;
                 var recordUrl = appUrl + '/api/:id/record';
+                var borrowUrl = appUrl + '/api/record/borrow';
+                $scope.awaitingArray = [];
+                $scope.onLoan = [];
                 $scope.records = [];
                 $scope.newRecord = {}; 
                 $scope.myRecords = [];
@@ -40,7 +43,7 @@
 
                 $scope.getUser();
 
-                $scope.loadRecords = function() {
+                function loadRecords() {
                     $scope.records = [];
                     $http.get(recordUrl).then(function(response) {
                         var records = response.data;
@@ -62,8 +65,8 @@
                 }
 
 
-                $scope.loadRecords();
-                console.log($scope.user)
+                loadRecords();
+                
 
                 $scope.addRecord = function() {
                     if ($scope.newRecord != {}) {
@@ -72,46 +75,30 @@
                             'artist': $scope.newRecord.artist,
                             'condition': $scope.newRecord.condition,
                             'description': $scope.newRecord.description,
-                            'owner': $scope.user._id
+                            'owner': $scope.user._id,
+                            'loaner': ""
+
                         }).then(function(response) {
-                            $scope.loadRecords();
+                            loadRecords();
                             $scope.newRecord = {};
                             $window.location.href = appUrl + "/" +  $scope.user._id + '/records';
                         });
                     }
                 };
 
-                //fix for record
-                $scope.editRecord = function(id, title, message) {
-                    $scope.title = title;
-                    $scope.message = message;
-                    $scope.hideEditedTodo = id;
-                };
+  
 
-                
-                
-                  //fix for record
-                $scope.cancelEdit = function() {
-                    $scope.title = "";
-                    $scope.message = "";
-                    $scope.hideEditedTodo = "";
-                };
-                
-                  //fix for record
-                $scope.putTodo = function() {
-                    $http.put(todoUrl, {
-                        'id': $scope.hideEditedTodo,
-                        'title': $scope.title,
-                        'message': $scope.message
-                    }).then(function(response) {
-                        $scope.getTodos();
-                        $scope.title = "";
-                        $scope.message = "";
-                        $scope.hideEditedTodo = "";
-                    });
-                };
+                 $scope.borrowRecord = function(record){
+                    $http.put(borrowUrl, {
+                      "id": record,
+                      "loaner": $scope.user._id
+                    }).then(function(data){
+                      console.log("done adding loaner")
+                      loadRecords();
+                    })
+                 };
 
-
+            
 
                 $scope.deleteRecord = function(id) {
                     $http({
@@ -119,7 +106,7 @@
                         method: "DELETE"
                     }).
                     then(function(data) {
-                        $scope.loadRecords();
+                        loadRecords();
                     });
                 };
 
@@ -148,7 +135,7 @@
                   var user = $scope.user;
                 // console.log(user)
                 //  console.log(record)
-                  if(record.owner === user.id){
+                  if(record.owner === user._id){
                     return true;
                   }else{
                     return false;
@@ -157,14 +144,27 @@
 
                 $scope.cantBorrow = function(record) {
                   var user = $scope.user;
+                  if(record.loaner === ''){
+                    if (record.owner === user._id){
+                      return true;
+                    }else{
+                      return false;
+                    }
+                  }else{
+                    return false;
+                  }
+                };
+
+
+                $scope.requested = function(record) {
+                  var user = $scope.user;
                   if(record.loaner !== ''){
-                    if (record.owner === user.id){
+                    if (record.owner === user._id){
                       return false;
                     }else{
                       return true;
                     }
-                  }
-                  else{
+                  }else{
                     return false;
                   }
                 };
@@ -172,10 +172,10 @@
                 //show if not owner, has "" or undefined, 
                 $scope.isAvailable = function(record) {
                  var user = $scope.user;
-                  if (record.owner === user.id){
+                  if (record.owner === user._id){
                     return false;
                   }
-                  if(record.owner !== user.id){
+                  if(record.owner !== user._id){
                     if (record.loaner !== ''){
                       return false;
                     }else{

@@ -2,7 +2,7 @@
 
 
 var Records = require('../models/record.js');
-
+var flatten = require('flat')
 
 
 
@@ -27,7 +27,8 @@ function RecordHandler() {
               artist: req.body.artist,
               condition: req.body.condition,
               description: req.body.description,
-              owner: req.user._id
+              owner: req.user._id,
+              loaner: req.body.loaner
         });
 
 
@@ -40,6 +41,20 @@ function RecordHandler() {
         });
 
 
+    };
+
+    this.borrowRecord = function(req, res) {
+
+        Records.findOneAndUpdate({
+            "_id": req.body.id
+        },{
+              loaner:req.body.loaner
+            }, function(err) {
+            if (err) {
+                throw err;
+            }
+            res.send(req.body);
+        });
     };
 
 
@@ -56,44 +71,24 @@ function RecordHandler() {
     };
 
     this.editRecord = function(req, res) {
+
         Records.findOneAndUpdate({
             "_id": req.body.id
-        }, {record: {
+        },{
               album: req.body.album,
               artist: req.body.artist,
               condition: req.body.condition,
               description: req.body.description,
-              owner: req.user._id
-            }}, function(err) {
+              owner: req.user._id,
+              loaner:req.body.loaner
+            }, function(err) {
             if (err) {
+                console.log(err)
                 throw err;
             }
             res.send(req.body);
         });
     };
-
-
-     this.editUser = function(req, res) {
-        Users.findOneAndUpdate({
-        "_id": req.body.id
-        }, {
-        local: {
-        email : req.body.email,
-        },
-       shared: {
-        name: req.body.name,
-        country: req.body.country,
-        state: req.body.state,
-        city: req.body.city
-       }},
-       function(err) {
-            if (err) {
-                throw err;
-            }
-            res.send(req.body);
-        });
-    };
-
 }
 
 module.exports = RecordHandler;

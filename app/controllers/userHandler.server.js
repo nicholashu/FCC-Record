@@ -15,12 +15,12 @@ function UserHandler() {
         local: {
         email : req.body.email,
 		    },
-			 shared: {
-				name: req.body.name,
-				country: req.body.country,
+		 shared: {
+			name: req.body.name,
+			country: req.body.country,
 		    state: req.body.state,
 		    city: req.body.city
-			 }}),
+		 }}),
 			 function(err) {
             if (err) {
                 throw err;

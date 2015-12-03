@@ -115,6 +115,9 @@
 		.post(recordHandler.addRecordNew)
 		.put(recordHandler.editRecord);
 
+		app.route('/api/record/borrow')
+		.put(recordHandler.borrowRecord);
+
 
 		app.route('/api/:id/record/:id')
 		.delete(recordHandler.removeRecord);

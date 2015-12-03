@@ -1,12 +1,13 @@
 <html ng-app="clementineRecordApp">
+
 <head>
   <link href="/public/css/main.css" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
-
+<div ng-include="'../public/partials/navbar.html'"></div>
 <body ng-controller="RecordCtrl">
-
 <header class="hero-unit" id="banner2" >
+
 
   <div class="container">
    <button class="btn btn-primary btn-lg" ng-click="setTab(0)">My Records</button>
