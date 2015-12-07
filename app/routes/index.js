@@ -3,7 +3,7 @@
 		var path = process.cwd();
 
 		var RecordHandler = require(path + '/app/controllers/recordHandler.server.js');
-		var UserHandler = require(path + '/app/controllers/userHandler.server.js'); 
+		var UserHandler = require(path + '/app/controllers/userHandler.server.js');
 
 		module.exports = function (app, passport) {
 
@@ -117,6 +117,12 @@
 
 		app.route('/api/record/borrow')
 		.put(recordHandler.borrowRecord);
+
+		app.route('/api/record/approve')
+		.put(recordHandler.approveRecord, function(req,res){
+			console.log(req);
+			console.log(res);
+		});
 
 
 		app.route('/api/:id/record/:id')

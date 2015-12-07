@@ -57,6 +57,21 @@ function RecordHandler() {
         });
     };
 
+    this.approveRecord = function(req, res) {
+
+        Records.findOneAndUpdate({
+            "_id": req.body.id
+        },{
+              loaner: req.body.loaner,
+              approved:req.body.approved
+            }, function(err) {
+            if (err) {
+                throw err;
+            }
+            res.send(req.body);
+        });
+    };
+
 
 
     this.removeRecord = function(req, res) {

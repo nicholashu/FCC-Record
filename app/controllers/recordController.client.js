@@ -23,17 +23,18 @@
         .controller('RecordCtrl', ['$scope', '$http', '$window','UserService','$location',
 
             function($scope, $http, $window, UserService, $location) {
-                
+
                 var appUrl = $window.location.origin;
                 var recordUrl = appUrl + '/api/:id/record';
                 var borrowUrl = appUrl + '/api/record/borrow';
+                var approveUrl = appUrl + '/api/record/approve';
                 $scope.awaitingArray = [];
                 $scope.onLoan = [];
                 $scope.records = [];
-                $scope.newRecord = {}; 
+                $scope.newRecord = {};
                 $scope.myRecords = [];
                 $scope.tab = 0;
-  
+
 
                 $scope.getUser = function() {
                 UserService.getUser().then(function(result) {
@@ -45,10 +46,12 @@
 
                 function loadRecords() {
                     $scope.records = [];
+                    $scope.awaitingArray = [];
+                    $scope.onLoan = [];
                     $http.get(recordUrl).then(function(response) {
                         var records = response.data;
                         getRecords(records);
-                        checkRequests();
+                        $scope.checkRequests()
                     });
                 };
 
@@ -61,12 +64,22 @@
                   });
                  }
 
-                function checkRequests(){
-                }
+                $scope.checkRequests = function(){
+                 $scope.myRecords.forEach(function(record){
+                    if (record.approved === false){
+                      if (record.loaner !== ""){
+                        $scope.awaitingArray.push(record);
+                      }
+                    }else{
+                      $scope.onLoan.push(record);
+                    }
+                 })
+
+                };
 
 
                 loadRecords();
-                
+
 
                 $scope.addRecord = function() {
                     if ($scope.newRecord != {}) {
@@ -86,7 +99,7 @@
                     }
                 };
 
-  
+
 
                  $scope.borrowRecord = function(record){
                     $http.put(borrowUrl, {
@@ -98,7 +111,29 @@
                     })
                  };
 
-            
+
+                 $scope.approveRecord = function(record){
+                    $http.put(approveUrl, {
+                      "id": record._id,
+                      "loaner": record.loaner,
+                      "approved": true
+                    }).then(function(data){
+                      loadRecords();
+                    })
+                 };
+
+                  $scope.returnRecord = function(record){
+                    $http.put(approveUrl, {
+                      "id": record._id,
+                      "loaner": "",
+                      "approved": false
+                    }).then(function(data){
+                      console.log(data)
+                      loadRecords();
+                    })
+                 };
+
+
 
                 $scope.deleteRecord = function(id) {
                     $http({
@@ -110,18 +145,6 @@
                     });
                 };
 
-                function checkRequests(){
-                  $scope.myRecords.forEach(function(record){
-                    if(record.loaner !== ''){
-                      if(record.approved !== true){
-                        $scope.awaitingArray.push(record);
-                      }
-                      else if(record.approved === true){
-                        $scope.onLoan.push(record);
-                      }
-                    }
-                  });
-                }
 
                 $scope.setTab = function(tab) {
                   $scope.tab = tab;
@@ -169,7 +192,7 @@
                   }
                 };
 
-                //show if not owner, has "" or undefined, 
+                //show if not owner, has "" or undefined,
                 $scope.isAvailable = function(record) {
                  var user = $scope.user;
                   if (record.owner === user._id){
